@@ -872,7 +872,7 @@ END
 
 // Aerie/Darian on-rest lovetalk
 CHAIN IF ~Global("T1DarAerRom3","GLOBAL",1)~ THEN T1DAR25J T1DarAerRom3
-~Aerie, you're going to hurt yourself if you keep stretching like that. Here, try this...~ DO ~SetGlobal("T1DarAerRom3","GLOBAL",1)~
+~Aerie, you're going to hurt yourself if you keep stretching like that. Here, try this...~ DO ~SetGlobal("T1DarAerRom3","GLOBAL",2)~
 == AERIE25J ~Oh, wow. That feels wonderful! What did that do?~
 == T1DAR25J ~You haven't lost your wing muscles. I learned how to do this in the army - even without your wings, your previous routine was going to put a lot of stress on your back.~
 == AERIE25J ~Thank you. I've only started trying to stretch and practice more for battle recently.~

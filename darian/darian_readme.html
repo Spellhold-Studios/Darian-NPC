@@ -305,16 +305,17 @@
 
       <div id="header">
         <h1>Darian NPC</h1>
-        <strong>A Spellhold Studios mod for Baldur's Gate 2: SoA & ToB</strong>
+        <strong>A Spellhold Studios mod for Baldur's Gate II: SoA & ToB</strong>
         <hr />
         <p class="about">
           Author: Tempest
           Coder: K'aeloree
         </p>
         <p class="about">
-          <a href="http://www.spellholdstudios.net/ie/darian">Mod Website</a> &#8226;
-          <a href="http://www.shsforums.net/forum/422-darian/">Mod Forum</a> &#8226;
-          Version: 2.4
+          <a href="https://github.com/Spellhold-Studios/Darian-NPC/releases/latest">Download</a> &#8226;
+          <a href="http://www.shsforums.net/forum/422-darian/">Forum</a> &#8226;
+          <a href="https://github.com/Spellhold-Studios/Darian-NPC">GitHub</a> &#8226;
+          Version: 2.5
         </p>
         <hr />
         <p class="menu">
@@ -338,9 +339,9 @@
 
           <p>The Darian NPC mod contains a male/female romance which is considered to be rated T for Teen material.</p>
 
-          <p>The romance is not entirely straightforward. An outline of major potential pitfalls can be found <a href="#romance">here</a> .</p>
+          <p>The romance is not entirely straightforward. An outline of major potential pitfalls can be found <a href="#romance">here</a>.</p>
 
-          <p>Visit the <a href="http://www.spellholdstudios.net/ie/darian">website</a> or <a href="http://www.shsforums.net/forum/422-darian/">forum</a> for all the latest updates.</p>
+          <p>Visit the mod's <a href="https://github.com/Spellhold-Studios/Darian-NPC">GitHub page</a> or <a href="http://www.shsforums.net/forum/422-darian/">forum</a> for all the latest updates.</p>
           <address>
             <span class="footer">Darian NPC &gt; Introduction</span> &#8226;<a href="#top">BACK TO TOP</a>
           </address>
@@ -350,15 +351,14 @@
         <a name="installation" id="installation"></a>
         <div class="content">
           <h2>Installation</h2>
-          <h5>PC</h5>
-
-          <p>The Darian NPC is a WeiDU mod, packaged in an extractable .RAR archive. Simply unrar <em>"darian_v2.1.rar"</em> (<a href="http://www.rarlabs.com">WinRAR</a>) into your Baldur's Gate II directory and run <em>"setup-darian.exe"</em>.
-          <p>To uninstall, run <em>"setup-darian.exe"</em> again and select the uninstall option.</p>
+          <h5>Setup Instructions</h5>
+          <p>Darian NPC is a WeiDU mod packaged in a ZIP archive. First, extract the contents of the archive into your game directory.</p>
+          <p>Then, run <b>setup-darian.exe</b> (Windows), <b>setup-darian.command</b> (macOS), or <b>setup-darian.sh</b> (Linux), and follow the on-screen instructions.</p>
+          <p>To uninstall or change components, run the setup file again and follow the prompts.</p>
           <h5>Compatibility and Installation Order</h5>
-
-          <p>The Darian NPC mod should be compatible with all WeiDU mods, however, we cannot test every single one. If you do encounter an error, please contact K'aeloree (kae@spellholdstudios.net) or alternatively post on the <a href="http://www.shsforums.net/forum/608-nephele/">forums</a>.</p>
-          <p>Although it is not required for the Darian NPC to function properly, it is always a good idea install the latest version of the <a href="http://www.gibberlings3.net/bg2fixpack/">BG2 Fixpack</a>.</p>
-          <p>Throne of Bhaal must be installed to play Darian.</p>
+          <p>Darian NPC should be compatible with all WeiDU mods; however, we cannot test every single one. If you do encounter an error, please post on the <a href="https://www.shsforums.net/forum/422-darian/">forum</a>.</p>
+          <p>Although it is not required for Darian NPC to function properly, it is always a good idea install the latest version of the <a href="https://www.gibberlings3.net/mods/fixes/bg2fixpack/">BG2 Fixpack</a>.</p>
+          <p>Throne of Bhaal is required to install this mod.</p>
           <address>
             <span class="footer">Darian NPC &gt; Installation</span> <a href="#top">BACK TO TOP</a>
           </address>
@@ -431,6 +431,7 @@
           <li>Celestine for indirectly inspiring Darian's initial concept at the beginning of all this.</li>
           <li>Choo Choo for boundless enthusiasm supporting and testing Darian.</li>
           <li>DeathAngel, Vivian, and Civian for testing and spotting numerous typos.</li>
+          <li>Arcane Coast team for the Russian translation and updating the mod.</li>
           <li>Names without number for supporting this project beyond all sense and for heaps of little suggestions, especially with Darian's flirts.</li>
           <li>Bioware and Black Isle Studios for making BG2 to begin with.</li>
           </ul>
@@ -445,6 +446,7 @@
             <li><a href="http://www.rarlab.com/">WinRAR</a>, by Eugene Roshal/Alexander Roshal</li>
             <li><a href="http://iesdp.gibberlings3.net">IESDP</a>, maintained by igi</li>
             <li><a href="http://www.crimsoneditor.com/">Crimson Editor</a>, by Ingyu Kang</li>
+            <li><a href="https://github.com/InfinityTools/WeiduModPackager">WeiDU Mod Packager</a>, by Argent77</li>
           </ul>
           <h5>Copyright Notice:</h5>
           <div class="important">
@@ -464,8 +466,18 @@
         <a name="version" id="version"></a>
 
         <div class="content">
-          <h2>Version history</h2>  
-          <h6>22nd January 2013 - Version 2.4:</h6>
+          <h2>Version history</h2>
+
+          <h6>30 July 2025 - Version 2.5:</h6>
+          <ul>
+            <li>Fixed an error in Viconia's dialogue file leading to installation errors</li>
+            <li>Added support for translations with UTF-8 character encoding</li>
+            <li>Added Russian translation by Kirian</li>
+            <li>Added compatibility with EET</li>
+            <li>Added compatibility with Project Infinity</li>
+            <li>Repackaged with Windows, macOS, and Linux installers in a single ZIP archive</li>
+          </ul>
+          <h6>22 January 2013 - Version 2.4:</h6>
           <ul>
             <li>Fixed Darian/Sarah crossmod issue</li>
             <li>Updated kit lib with bigg's fixes</li>

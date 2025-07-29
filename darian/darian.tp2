@@ -1,26 +1,75 @@
 // --------------------------------------------
 // Mod setup
 // --------------------------------------------
-// Basics
-BACKUP ~darian/backup~
-AUTHOR ~Tempest (tempest@spellholdstudios.net)~
-VERSION ~v2.4~
-README ~darian/darian_readme.html~
+BACKUP  ~weidu_external/darian/backup~
+SUPPORT ~https://github.com/Spellhold-Studios/Darian-NPC~
+VERSION ~v2.5~
 
+README ~darian/translations/%LANGUAGE%/darian_readme.html~
+       ~darian/darian_readme.html~
+
+ALWAYS
+  ACTION_IF (!VARIABLE_IS_SET t1_always_done) BEGIN // run only once per install
+    // EET compatibility
+    ACTION_IF (GAME_IS ~eet~) BEGIN
+      OUTER_SET bg2_chapter = 12
+    END ELSE BEGIN
+      OUTER_SET bg2_chapter = 0
+    END
+    OUTER_FOR (i=1; i<=10; i=i+1) BEGIN
+      OUTER_SET bg2_chapter = bg2_chapter + 1
+      OUTER_SPRINT name_source ~bg2_chapter_%i%~
+      OUTER_SET EVAL ~%name_source%~ = bg2_chapter
+    END
+
+    // convert strings from UTF-8 for original games
+    ACTION_DEFINE_ARRAY t1reload BEGIN setup END
+
+    LAF HANDLE_CHARSETS
+      INT_VAR
+        infer_charsets    = 1
+        from_utf8         = 1
+      STR_VAR
+        default_language  = ~english~
+        tra_path          = ~darian/translations~
+        out_path          = ~weidu_external/darian/translations~
+        reload_array      = ~t1reload~
+    END
+
+    ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+      OUTER_TEXT_SPRINT tra_location ~darian/translations~
+    END ELSE BEGIN
+      OUTER_TEXT_SPRINT tra_location ~weidu_external/darian/translations~
+    END
+
+    OUTER_SET t1_always_done = 1
+  END
+END
+
+AUTO_TRA ~%tra_location%/%s~
+
+LANGUAGE ~English~
+         ~english~
+         ~darian/translations/english/setup.tra~
+
+LANGUAGE ~Russian (translation by Kirian)~
+         ~russian~
+         ~darian/translations/english/setup.tra~
+         ~darian/translations/russian/setup.tra~
 
 // --------------------------------------------
-// Darian NPC Mod v2.4
+// Darian NPC Mod
 // --------------------------------------------
+
 // Component setup
-BEGIN ~Darian NPC Mod for BGII: SoA & ToB~
-  REQUIRE_FILE ~data/25dialog.bif~ ~ToB is required to install Darian~
-  REQUIRE_FILE ~data/25scripts.bif~ ~ToB is required to install Darian~
+BEGIN @1 LABEL ~t1-Darian-Main~ // Darian NPC Mod for BGII: SoA & ToB
+REQUIRE_PREDICATE (GAME_IS ~tob bg2ee eet~) @2 // ToB is required to install Darian
 
 // Adds custom IsValidForPartyDialogue state used throughout darian
 APPEND ~STATE.IDS~ // adds custom IsValidForPartyDialogue state
   ~0x80101FEF CD_STATE_NOTVALID~
   UNLESS ~CD_STATE_NOTVALID~
-  
+
 // Fixing Imoen's dialogue file
 ACTION_IF FILE_EXISTS_IN_GAME ~mel01.cre~ THEN BEGIN
   COPY_EXISTING ~interdia.2da~ ~override~
@@ -36,7 +85,6 @@ INCLUDE ~darian/lib/ids.tph~
 INCLUDE ~darian/lib/times.tph~
 CLEAR_IDS_MAP
 
-
 // Compiling dialogue...
 COMPILE ~darian/dialogue/t1dar.d~
 COMPILE ~darian/dialogue/bt1dar.d~
@@ -48,7 +96,7 @@ COMPILE ~darian/dialogue/t1dar25j.d~
 COMPILE ~darian/dialogue/t1dar25p.j~
 
 // Compiling scripts...
-COMPILE ~darian/scripts/t1dar.baf~
+COMPILE ~darian/scripts/t1dar.baf~ EVALUATE_BUFFER 
 COMPILE ~darian/scripts/t1dard.baf~
 COMPILE ~darian/scripts/t1dar25.baf~
 COMPILE ~darian/scripts/t1dar25d.baf~
@@ -59,43 +107,43 @@ EXTEND_TOP ~ar6200.bcs~ ~darian/scripts/ar6200.baf~
 
 // Epilogues...
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar1.2da~
-   REPLACE ~99999~ ~With Alaundo's Prophecy concluded, Darian returned home to Myrrhavin at last. Contrary to his own expectations, Darian was celebrated amongst the Avariel as a true hero and was granted the highest honors of that enigmatic race. Although he initially resumed his station as a Talon, Darian soon found that he had seen enough death, and retired. The decades afterward were confusing ones for the Avariel knight as he tried and failed to find some new purpose in life. Eventually, weary of his fame and accomplishments from his time at <CHARNAME>'s side bringing him and his people undue attention from outside forces, Darian left his people to wander the Realms in solitude. In time, he became known as a wandering saint or even oracle, and many young adventurers sought him for his counsel. What Darian thought of this is unknown, for he spoke less and less as time went on, becoming increasingly cryptic and, many said, saddened over some unspoken burden. Eventually, Darian became impossible for any to find, on Faerun or the planes. Some day he found a place to stay where none could find him, others hold that he stepped through a portal to some time or place beyond. The truth, and Darian's ultimate fate, remain a mystery to this day.~
+   REPLACE ~99999~ @3
    
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar2.2da~
-   REPLACE ~99999~ ~Human history speaks little of Darian after <CHARNAME>'s ascension to the gods, as he swiftly disappeared from the public view after the cataclysmic final battle. Returning home to his people, Darian rejected the honors bestowed upon him and returned to service as the Talon initiate he had once been. This did not last long, and Darian found he had a gift for leadership and planning in the years to come, a gift that would serve him well as a rising young officer. In time, he became a famed general and celebrated hero of the Avariel, with a legendary disdain for even the most daunting odds. He attributed this often justified confidence to his adventures with <CHARNAME> and the impossible odds they had so often faced together, often remarking that if a handful of idiots could slay would-be gods, trained soldiers should have little trouble. Curiously, Darian actively rejected any association with <CHARNAME>'s new but energetic church, and indeed denied any knowledge of the goddess calling herself <CHARNAME>. Of his former lover, Darian said only that she died in the final battle against Amelyssan.~
-
+   REPLACE ~99999~ @4
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar3.2da~
-   REPLACE ~99999~ ~Human history speaks little of Darian after <CHARNAME>'s ascension to the gods, as he swiftly disappeared from the public view after the cataclysmic final battle. Returning home to his people, Darian rejected the honors bestowed upon him and returned to service as the Talon initiate he had once been. This did not last long, and Darian found he had a gift for leadership and planning in the years to come, a gift that would serve him well as a rising young officer. In time, he became a famed general and celebrated hero of the Avariel, with a legendary disdain for even the most daunting odds. His career was interrupted, however, by the arrival of a strange woman some decades after the final battle against Amelyssan. Clearly part Avariel, but also part divine, she claimed to be Darian's daughter. Due to the complicated situation of her conception, birth, and her mother's ascension, her divine nature had been revoked and she had been sent to her father's care. Shunning all association with <CHARNAME>'s young church, Darian raised his semi-immortal daughter alone amidst the clouds. Despite - or perhaps because of - Darian's best efforts, his daughter had the same drive in life as her mother and the quiet determination of her father, and to catalogue her adventures in life would require a tome of her own. Or three.~
-
+   REPLACE ~99999~ @5
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar4.2da~
-   REPLACE ~99999~ ~The years following Amelyssan's defeat were difficult ones for Darian. <CHARNAME> had challenged his preconceptions of the world and his beliefs, but facing a world that knew him mainly as <CHARNAME>'s lover was another matter entirely. Despite the best of intentions and a hopeful future with <CHARNAME>, Darian steadily grew more withdrawn and bitter as the years went on, refusing to appear in public and often vanishing entirely for long stretches of time. Eventually, the pressure and emotional stress proved too much, and Darian quietly fled <CHARNAME> and human civilization entirely. He returned home in disgrace, having brought unwelcome attention to the winged elves and having forsaken his responsibilities as a Talon. Perhaps in an act of penance, Darian began patrolling the cloud-shrouded mountains in solitude, away from Avariel and earth-bound alike. It is believed he keeps his quiet vigil still, a place and role he can finally call home.~
-
+   REPLACE ~99999~ @6
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar5.2da~
-   REPLACE ~99999~ ~The years following Amelyssan's defeat were difficult ones for Darian. <CHARNAME> had challenged his preconceptions of the world and his beliefs, but facing a world that knew him mainly as <CHARNAME>'s lover was another matter entirely. Despite the best of intentions and a hopeful future with <CHARNAME>, Darian steadily grew more withdrawn and bitter as the years went on, refusing to appear in public and often vanishing entirely for long stretches of time. Not even the birth of <CHARNAME>'s first child lifted Darian's spirits, and less than a year later, the Avariel warrior vanished. He returned home in disgrace, having brought unwelcome attention to the winged elves and having forsaken his responsibilities as a Talon. Perhaps in an act of penance, Darian began patrolling the cloud-shrouded mountains in solitude, away from Avariel and earth-bound alike. It is believed he keeps his quiet vigil still, a place and role he can finally call home.~
-
+   REPLACE ~99999~ @7
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar6.2da~
-   REPLACE ~99999~ ~With Bhaal's legacy laid to rest, Darian took his leave of <CHARNAME> and returned home to Myrrhavin. Deciding he had seen enough death for a lifetime, Darian left the Talon order with the intent of never bloodying his hands again. Fate had other plans, however, and in the years to come Darian reluctantly took up arms again. His actions at <CHARNAME>'s side had brought the Avariel an unfortunate amount of attention from outsiders, friendly and otherwise. Taking responsibility for the consequences of his actions, Darian was ultimately to prove equal parts warrior and diplomat in the decades after Amelyssan's defeat, ever standing between the Avariel and outsiders, and it surprised him as much as anyone when he eventually wed an earth-bound elf who dreamed of reuniting the fractured elven races. When asked of <CHARNAME>, however, Darian answered that one of his greatest regrets in life was that he was not the man <CHARNAME> had so richly deserved.~
-
+   REPLACE ~99999~ @8
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar7.2da~
-   REPLACE ~99999~ ~With Bhaal's legacy laid to rest, Darian took his leave of <CHARNAME> and returned home to Myrrhavin. Deciding he had seen enough death for a lifetime, Darian left the Talon order with the intent of never bloodying his hands again. Fate had other plans, however, and in the years to come Darian reluctantly took up arms again. His actions at <CHARNAME>'s side had brought the Avariel an unfortunate amount of attention from outsiders, friendly and otherwise. Taking responsibility for the consequences of his actions, Darian was ultimately to prove equal parts warrior and diplomat in the decades after Amelyssan's defeat, ever standing between the Avariel and outsiders, and it surprised him as much as anyone when he eventually wed an earth-bound elf who dreamed of reuniting the fractured elven races. A less-welcome surprise came not long afterwards, when a half-Avariel woman found Myrrhavin, claiming to be searching for her father. The reconciliation of Darian and his daughter would be neither swift nor easy, and nearly destroy the tentative happiness he had since found. Darian regretted that he had not been the man <CHARNAME> had so deserved, nor the father his daughter deserved. In the end, legend has it, they did find some sort of rapprochement, but never saw each other again after the young woman left Myrrhavin a few years after she arrived.~
-
+   REPLACE ~99999~ @9
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar8.2da~
-   REPLACE ~99999~ ~For good and ill, Darian was true to his word after Amelyssan's defeat. Although he was welcomed home in Myrrhavin with great ceremony, Darian stepped down from the Talon order to fulfill his promise to <CHARNAME>, taking time to think and reflect on the extraordinary events he witnessed in Amn and Tethyr. More important still were the people he had known, and his often troubled relationships with them. <CHARNAME> in particular was a difficult subject, and Darian ultimately realized that while he did indeed have passionate feelings for her, he could never be happy in her world, nor she in his. What passed between Darian and <CHARNAME> one winter's eve some years after Bhaal's legacy was laid to rest is not known, but Darian left as quietly and swiftly as he had arrived. He never returned to the civilizations of the earth-bound races, and what eventually became of him is not known to human history.~
-
+   REPLACE ~99999~ @10
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar9.2da~
-   REPLACE ~99999~ ~For good and ill, Darian was true to his word after Amelyssan's defeat. Although he was welcomed home in Myrrhavin with great ceremony, Darian stepped down from the Talon order to fulfill his promise to <CHARNAME>, taking time to think and reflect on the extraordinary events he witnessed in Amn and Tethyr. More important still were the people he had known, and his often troubled relationships with them. <CHARNAME> in particular was a difficult subject, and Darian ultimately realized that while he did indeed have passionate feelings for her, he could never be happy in her world, nor she in his. What passed between Darian and <CHARNAME> one winter's eve some years after Bhaal's legacy was laid to rest is not known, but Darian left as quietly and swiftly as he had arrived. He returned on occasion for the sake of his son, whom he tried to be as good a father to as circumstances allowed, but they never grew close. Yet in the end, the half-Avariel boy took after his father more than anyone save <CHARNAME> realized, and the boy who became one of Faerun's more illustrious paladins was very much his father's son.~
-
+   REPLACE ~99999~ @11
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar10.2da~
-   REPLACE ~99999~ ~With Bhaal's legacy laid to rest, Darian proved as good as his word. He had grown considerably since he left Myrrhavin, and returned home a different man. He stepped down from the Talon order, deciding he had seen enough death already, and began to think on his adventures at <CHARNAME>'s side, and his often troubled relationships with his former companions. It was some years after Amelyssan's defeat when Darian returned to <CHARNAME> and admitted that living without her was one of the most difficult experiences of his life. They agreed to start over, and though their courtship was not without its share of difficulties, their love would stand the test of time and be celebrated by bards for decades to come. After their wedding, Darian was content to step out of the public view and turn his keen mind towards scholarly pursuits rather than martial. Even today, Darian's account of <CHARNAME>'s adventures and those she encountered along the way is widely considered the definitive history of Bhaal's legacy.~
-
+   REPLACE ~99999~ @12
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar11.2da~
-   REPLACE ~99999~ ~With Bhaal's legacy laid to rest, Darian proved as good as his word. He had grown considerably since he left Myrrhavin, and returned home a different man. He stepped down from the Talon order, deciding he had seen enough death already, and began to think on his adventures at <CHARNAME>'s side, and his often troubled relationships with his former companions. It was some years after Amelyssan's defeat when Darian returned to <CHARNAME> and admitted that living without her and what turned out to be a daughter was one of the most difficult experiences of his life. They agreed to start over, and though their courtship was not without its share of difficulties, their love would stand the test of time and be celebrated by bards for decades to come. After their wedding, Darian was content to step out of the public view and turn his keen mind towards scholarly pursuits rather than martial. Even today, Darian's account of <CHARNAME>'s adventures and those she encountered along the way is widely considered the definitive history of Bhaal's legacy. ~
-
+   REPLACE ~99999~ @13
+   
 COPY ~darian/epilogues/t1dar.2da~ ~override/t1dar12.2da~
-   REPLACE ~99999~ ~Ironically, Darian proved he did not share Aerie's lust for adventure and quest for justice in the years following Amelyssan's defeat. The death and bloodshed he had witnessed and helped cause in Amn and Tethyr weighed heavily on him, and when he and Aerie started a family, Darian retired to Myrrhavin with their children to raise and teach them away from the battlefield. Fatherhood, he discovered, was both a great responsibility and healing work, mending the emotional scars from his adventures. Despite not sharing his beloved Aerie's taste for adventure, Darian proved an anchor to her in the centuries to come, a faithful and unyielding bulwark against the trials of her path in life. Ultimately, he passed away only days after Aerie, content that despite all odds, Faerun may have been a better place for his deeds. ~
+   REPLACE ~99999~ @14
    
 COPY ~darian/epilogues/t1aerie.2da~ ~override~
-  REPLACE ~99999~ ~Fate was kind to Aerie after Amelyssan's defeat. Together with Darian, Aerie set out to adventure in her own right, no longer timid or fearful of what the future held. A proper telling of all of Aerie's adventures and achievements is a tale in its own right, but in the centuries to come her name would rival <CHARNAME>'s as one of the great heroes of their time. Not even her eventual marriage to Darian and subsequent children could hold Aerie back from her thirst for adventure and justice, to the point that her husband claimed she was addicted to the excitement of it all. Astonishingly, it was not battle but old age that eventually claimed Aerie, surrounded on her death bed by friends, family, and, some said, Aerdrie Faeyna herself.~
+  REPLACE ~99999~ @15
   
 COPY_EXISTING ~ar6200.bcs~ ~override~
   DECOMPILE_BCS_TO_BAF
@@ -108,127 +156,125 @@ COPY_EXISTING ~ar6200.bcs~ ~override~
 
 
 // Music
-COPY ~darian/music/t1blank.mus~ ~music~
-COPY_EXISTING ~songlist.2da~ ~override~
-SET_2DA_ENTRY 0 2 3 ~T1BLANK.MUS~
+COPY ~darian/audio/t1blank.mus~ ~music~
 
-ACTION_IF (~%WEIDU_OS%~ STRING_EQUAL_CASE ~win32~) THEN BEGIN
-  AT_NOW                   ~darian/music/audio-install.bat~
-  AT_INTERACTIVE_UNINSTALL ~darian/music/audio-uninstall.bat~
+COPY_EXISTING ~songlist.2da~ ~override~
+  SET_2DA_ENTRY 0 2 3 ~t1blank.mus~
+
+LAF HANDLE_AUDIO END
+
+// Copying portraits
+ACTION_IF (GAME_IS ~bg2ee eet~) BEGIN
+  COPY ~darian/images/portraits/t1darl.bmp~    ~override/t1darm.bmp~ // character record (210x330)
+       ~darian/images/portraits/t1dars-ee.bmp~ ~override/t1dars.bmp~ // dialogue/sidebar (169x266)
 END ELSE BEGIN
-  ACTION_IF (~%WEIDU_OS%~ STRING_EQUAL_CASE ~osx~) THEN BEGIN
-    AT_NOW                   ~sh darian/music/audio-install-osx.sh~
-    AT_INTERACTIVE_UNINSTALL ~sh darian/music/audio-uninstall-osx.sh~
-  END ELSE BEGIN
-    AT_NOW                   ~bash darian/music/audio-install-lin.sh~
-    AT_INTERACTIVE_UNINSTALL ~bash darian/music/audio-uninstall-lin.sh~
-  END
+  COPY ~darian/images/portraits/t1darm.bmp~ ~override~ // character record (110x170)
+       ~darian/images/portraits/t1dars.bmp~ ~override~ // dialogue/sidebar (38x60)
 END
 
+COPY ~darian/images/portraits/t1darl.bmp~ ~override~ // epilogue (210x330)
 
-// Copying images and creatures
-COPY ~darian/images~ ~override~
-
+// Copying creatures
 COPY ~darian/creatures/t1dar.cre~ ~override/t1dar.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
   
 COPY ~darian/creatures/t1dar.cre~ ~override/t1dar25.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
   WRITE_LONG 0x18 2500000
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 COPY ~darian/creatures/t1dar.cre~ ~override/t1ddad.cre~
-  SAY NAME1 ~Aalanris~
-  SAY NAME2 ~Aalanris Antharrna~
+  SAY NAME1 @57
+  SAY NAME2 @58
   WRITE_ASCII 0x248 ~T1DDAD~ #8  //override script
   WRITE_ASCII 0x280 ~T1DDAD~ #32 //DV
   WRITE_ASCII 0x2cc ~T1DDAD~ #8  //dialogue
@@ -240,314 +286,337 @@ APPEND ~pdialog.2da~ ~T1DAR T1DARP T1DARJ T1DARD T1DAR25P T1DAR25J T1DAR25D T1DA
 APPEND ~interdia.2da~ ~T1DAR BT1DAR BT1DAR25~
   UNLESS ~T1Dar~
 
+// EET_NPC_TRANSITION
+ACTION_IF (GAME_IS ~eet~) BEGIN
+  INCLUDE ~EET/other/EET_functions.tph~
+
+  LAF ~EET_NPC_TRANSITION~
+    INT_VAR
+      type = 2
+      default_ToB = 0
+    STR_VAR
+      dv = "T1Dar"
+      override_SoA = "T1DARS"
+      override_ToB = "T1DARS"
+      dialog_ToB = "BT1DAR25"
+      cre_ToB = "t1dar"
+      traFile = EVAL "%tra_location%/%LANGUAGE%/t1dar25.tra"
+      string = "@0"
+      stringPosDV = "Dorn"
+  END
+END
+
 // Change Darian's class to Ranger
-BEGIN ~Change Darian's class to Trueclass Ranger~
-  SUBCOMPONENT ~Install alternate class for Darian?~
+BEGIN @59 LABEL ~t1-Darian-Ranger~
+SUBCOMPONENT @60 // Install alternate class for Darian?
+REQUIRE_COMPONENT ~darian.tp2~ ~0~ @64 // You do not appear to have Darian installed
 
 COPY ~darian/creatures/t1dar1.cre~ ~override/t1dar.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 COPY ~darian/creatures/t1dar1.cre~ ~override/t1dar25.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
   WRITE_LONG 0x18 2500000
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+   SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 
 // Change Darian's class to Ranger/Cleric
-BEGIN ~Change Darian's class to Ranger/Cleric~
-  SUBCOMPONENT ~Install alternate class for Darian?~
+BEGIN @61 LABEL ~t1-Darian-Ranger-Cleric~
+SUBCOMPONENT @60 // Install alternate class for Darian?
+REQUIRE_COMPONENT ~darian.tp2~ ~0~ @64 // You do not appear to have Darian installed
 
 COPY ~darian/creatures/t1dar2.cre~ ~override/t1dar.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 COPY ~darian/creatures/t1dar2.cre~ ~override/t1dar25.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
   WRITE_LONG 0x18 2500000
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 // Change Darian's class to Stalker
-BEGIN ~Change Darian's class to Stalker~
-  SUBCOMPONENT ~Install alternate class for Darian?~
+BEGIN @62 LABEL ~t1-Darian-Stalker~
+SUBCOMPONENT @60 // Install alternate class for Darian?
+REQUIRE_COMPONENT ~darian.tp2~ ~0~ @64 // You do not appear to have Darian installed
 
 COPY ~darian/creatures/t1dar3.cre~ ~override/t1dar.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 COPY ~darian/creatures/t1dar3.cre~ ~override/t1dar25.cre~
-  SAY NAME1 ~Darian~
-  SAY NAME2 ~Darian Antharrna~
+  SAY NAME1 @16
+  SAY NAME2 @17
   WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
   WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
   WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
-  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x34 ~T1DARS~ #8   //small portrait
   WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
   WRITE_LONG 0x18 2500000
-  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
-  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
-  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
-  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
-  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
-  SAY LEADER ~I will perform my duty with efficiency.~
-  SAY TIRED ~Fatigue is sapping my strength.~
-  SAY BORED ~Are you certain this is a wise use of our time?~
-  SAY BATTLE_CRY1 ~Into the storm!~
-  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
-  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
-  SAY DYING ~For... Myrrhavin...~
-  SAY HURT ~Arvandor awaits me!~
-  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
-  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
-  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
-  SAY AREA_DAY ~Good visibility works both ways.~
-  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
-  SAY SELECT_COMMON1 ~Yes?~
-  SAY SELECT_COMMON2 ~Your will?~
-  SAY SELECT_COMMON3 ~What do you wish?~
-  SAY SELECT_COMMON4 ~I am prepared.~
-  SAY SELECT_COMMON5 ~Orders?~
-  SAY SELECT_COMMON6 ~There a problem?~
-  SAY SELECT_ACTION1 ~As you wish.~
-  SAY SELECT_ACTION2 ~For duty.~
-  SAY SELECT_ACTION3 ~So be it.~
-  SAY SELECT_ACTION4 ~I understand.~
-  SAY SELECT_ACTION5 ~As ordered.~
-  SAY SELECT_ACTION6 ~On my way.~
-  SAY SELECT_ACTION7 ~It is done.~
-  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
-  SAY CRITICAL_MISS ~Not my finest effort.~
-  SAY TARGET_IMMUNE ~My weapon is ineffective!~
-  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
-  SAY PICKED_POCKET ~Subterfuge successful.~
-  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
-  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
-  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+  SAY BIO @18
+  SAY HAPPY @19
+  SAY UNHAPPY_ANNOYED @20
+  SAY UNHAPPY_SERIOUS @21
+  SAY UNHAPPY_BREAKING_POINT @22
+  SAY LEADER @23
+  SAY TIRED @24
+  SAY BORED @25
+  SAY BATTLE_CRY1 @26
+  SAY BATTLE_CRY2 @27
+  SAY BATTLE_CRY3 @28
+  SAY DYING @29
+  SAY HURT @30
+  SAY AREA_FOREST @31
+  SAY AREA_CITY @32
+  SAY AREA_DUNGEON @33
+  SAY AREA_DAY @34
+  SAY AREA_NIGHT @35
+  SAY SELECT_COMMON1 @36
+  SAY SELECT_COMMON2 @37
+  SAY SELECT_COMMON3 @38
+  SAY SELECT_COMMON4 @39
+  SAY SELECT_COMMON5 @40
+  SAY SELECT_COMMON6 @41
+  SAY SELECT_ACTION1 @42
+  SAY SELECT_ACTION2 @43
+  SAY SELECT_ACTION3 @44
+  SAY SELECT_ACTION4 @45
+  SAY SELECT_ACTION5 @46
+  SAY SELECT_ACTION6 @47
+  SAY SELECT_ACTION7 @48
+  SAY CRITICAL_HIT @49
+  SAY CRITICAL_MISS @50
+  SAY TARGET_IMMUNE @51
+  SAY INVENTORY_FULL @52
+  SAY PICKED_POCKET @53
+  SAY EXISTANCE1 @54
+  SAY SPELL_DISRUPTED @55
+  SAY SET_A_TRAP @56
 
 
 // Sarah Crossmod
-BEGIN ~Sarah NPC Crossmod~
-  REQUIRE_COMPONENT ~darian.tp2~ ~0~ ~You do not appear to have Darian installed~
-  REQUIRE_COMPONENT ~Setup-Sarahtob.tp2~ ~0~ ~You do not appear to have Sarah installed~
+BEGIN @63 LABEL ~t1-Darian-Sarah-Crossmod~
+REQUIRE_COMPONENT ~darian.tp2~ ~0~ @64 // You do not appear to have Darian installed
+REQUIRE_COMPONENT ~Setup-Sarahtob.tp2~ ~0~ @65 // You do not appear to have Sarah installed
 
 COMPILE ~darian/dialogue/sarahbanter.d~

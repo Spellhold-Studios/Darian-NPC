@@ -4,12 +4,12 @@
 // Basics
 BACKUP ~darian/backup~
 AUTHOR ~Tempest (tempest@spellholdstudios.net)~
-VERSION ~2.3~
+VERSION ~v2.4~
 README ~darian/darian_readme.html~
 
 
 // --------------------------------------------
-// Darian NPC Mod v2.3
+// Darian NPC Mod v2.4
 // --------------------------------------------
 // Component setup
 BEGIN ~Darian NPC Mod for BGII: SoA & ToB~
@@ -548,6 +548,6 @@ COPY ~darian/creatures/t1dar3.cre~ ~override/t1dar25.cre~
 // Sarah Crossmod
 BEGIN ~Sarah NPC Crossmod~
   REQUIRE_COMPONENT ~darian.tp2~ ~0~ ~You do not appear to have Darian installed~
-  REQUIRE_COMPONENT ~Setup-Sarah.tp2~ ~0~ ~You do not appear to have Sarah installed~
+  REQUIRE_COMPONENT ~Setup-Sarahtob.tp2~ ~0~ ~You do not appear to have Sarah installed~
 
 COMPILE ~darian/dialogue/sarahbanter.d~

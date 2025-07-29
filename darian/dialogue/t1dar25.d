@@ -12,6 +12,7 @@ EXTEND_TOP FATESP 6 #3
         Race(Player1,ELF)
         Race(Player1,HALF_ELF)
         Race(Player1,HUMAN)
+      Gender(Player1,FEMALE)
       !Global("AerieRomanceActive","GLOBAL",2)
       !Global("AnomenRomanceActive","GLOBAL",2)
       !Global("JaheiraRomanceActive","GLOBAL",2)

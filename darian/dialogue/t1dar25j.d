@@ -1000,7 +1000,7 @@ IF ~~ T1DarTOBTalkFeel
 END
 
 IF ~~ T1DarTOBTalkPregnant
-  SAY ~That... uh... that shouldn't be possible. I, uh, have been taking contraceptive herbs since we escaped the Amn. Uh. I *really* hope you almost made me faint or your own sick entertainment, <CHARNAME>...~
+  SAY ~That... uh... that shouldn't be possible. I, uh, have been taking contraceptive herbs since we escaped Amn. Uh. I *really* hope you almost made me faint for your own sick entertainment, <CHARNAME>...~
   ++ ~Hehehe. Yes, I did.~ + T1DarTOBTalkEvil
   ++ ~Uh, no. I'm not joking.~ + T1DarTOBTalkOhcrap
 END

@@ -1,0 +1,7 @@
+IF
+    Global("T1DarExists","AR0400",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarExists","AR0400",1)
+    CreateCreature("T1Dar",[2165.2568],3)
+END

@@ -1,0 +1,124 @@
+// --------------------------------------------
+// Mod setup
+// --------------------------------------------
+// Basics
+BACKUP ~darian/backup~
+AUTHOR ~Tempest (tempest@spellholdstudios.net)~
+VERSION ~1~
+README ~darian/darian_readme.html~
+
+
+// --------------------------------------------
+// Darian NPC Mod v.02
+// --------------------------------------------
+// Component setup
+BEGIN ~Darian NPC Mod for BGII: SoA~
+
+// Adds custom IsValidForPartyDialogue state used throughout darian
+APPEND ~STATE.IDS~ // adds custom IsValidForPartyDialogue state
+  ~0x80101FEF CD_STATE_NOTVALID~
+  UNLESS ~CD_STATE_NOTVALID~
+  
+// Fixing Imoen's dialogue file
+ACTION_IF FILE_EXISTS_IN_GAME ~mel01.cre~ THEN BEGIN
+  COPY_EXISTING ~interdia.2da~ ~override~
+    SET_2DA_ENTRY 17 1 2 ~BIMOEN2~ // fixes ToB version
+    BUT_ONLY_IF_IT_CHANGES
+END ELSE BEGIN
+  APPEND ~interdia.2da~ ~IMOEN       BIMOEN2~ // fixes SoA version
+    UNLESS ~BIMOEN2~
+END
+
+// Fixpack ids fixes
+INCLUDE ~darian/lib/ids.tph~
+INCLUDE ~darian/lib/times.tph~
+CLEAR_IDS_MAP
+
+
+// Music
+COPY ~darian/music/t1blank.mus~ ~music~
+COPY_EXISTING ~songlist.2da~ ~override~
+SET_2DA_ENTRY 0 2 3 ~T1BLANK.MUS~
+
+ACTION_IF (~%WEIDU_OS%~ STRING_EQUAL_CASE ~win32~) THEN BEGIN
+  AT_NOW                   ~darian/music/audio-install.bat~
+  AT_INTERACTIVE_UNINSTALL ~darian/music/audio-uninstall.bat~
+END ELSE BEGIN
+  ACTION_IF (~%WEIDU_OS%~ STRING_EQUAL_CASE ~osx~) THEN BEGIN
+    AT_NOW                   ~sh darian/music/audio-install-osx.sh~
+    AT_INTERACTIVE_UNINSTALL ~sh darian/music/audio-uninstall-osx.sh~
+  END ELSE BEGIN
+    AT_NOW                   ~bash darian/music/audio-install-lin.sh~
+    AT_INTERACTIVE_UNINSTALL ~bash darian/music/audio-uninstall-lin.sh~
+  END
+END
+
+
+// Compiling dialogue...
+COMPILE ~darian/dialogue/t1dar.d~
+COMPILE ~darian/dialogue/bt1dar.d~
+COMPILE ~darian/dialogue/t1darj.d~
+COMPILE ~darian/dialogue/t1darp.d~
+
+// Compiling scripts...
+COMPILE ~darian/scripts/t1dar.baf~
+COMPILE ~darian/scripts/t1dard.baf~
+EXTEND_BOTTOM ~ar0400.bcs~ ~darian/scripts/ar0400.baf~
+
+// Copying images and creatures
+COPY ~darian/images~ ~override~
+
+COPY ~darian/creatures/t1dar.cre~ ~override/t1dar.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian~
+  WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+// Appends
+APPEND ~pdialog.2da~ ~T1DAR T1DARP T1DARJ T1DARD T1DAR25J T1DAR25D T1DAR25~
+  UNLESS ~T1Dar~
+
+APPEND ~interdia.2da~ ~T1DAR BT1DAR BT1DAR25~
+  UNLESS ~T1Dar~

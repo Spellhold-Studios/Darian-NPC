@@ -4,12 +4,12 @@
 // Basics
 BACKUP ~darian/backup~
 AUTHOR ~Tempest (tempest@spellholdstudios.net)~
-VERSION ~2.2~
+VERSION ~2.3~
 README ~darian/darian_readme.html~
 
 
 // --------------------------------------------
-// Darian NPC Mod v1.0
+// Darian NPC Mod v2.3
 // --------------------------------------------
 // Component setup
 BEGIN ~Darian NPC Mod for BGII: SoA & ToB~
@@ -240,10 +240,314 @@ APPEND ~pdialog.2da~ ~T1DAR T1DARP T1DARJ T1DARD T1DAR25P T1DAR25J T1DAR25D T1DA
 APPEND ~interdia.2da~ ~T1DAR BT1DAR BT1DAR25~
   UNLESS ~T1Dar~
 
+// Change Darian's class to Ranger
+BEGIN ~Change Darian's class to Trueclass Ranger~
+  SUBCOMPONENT ~Install alternate class for Darian?~
+
+COPY ~darian/creatures/t1dar1.cre~ ~override/t1dar.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+COPY ~darian/creatures/t1dar1.cre~ ~override/t1dar25.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  WRITE_LONG 0x18 2500000
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+
+// Change Darian's class to Ranger/Cleric
+BEGIN ~Change Darian's class to Ranger/Cleric~
+  SUBCOMPONENT ~Install alternate class for Darian?~
+
+COPY ~darian/creatures/t1dar2.cre~ ~override/t1dar.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+COPY ~darian/creatures/t1dar2.cre~ ~override/t1dar25.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  WRITE_LONG 0x18 2500000
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+// Change Darian's class to Stalker
+BEGIN ~Change Darian's class to Stalker~
+  SUBCOMPONENT ~Install alternate class for Darian?~
+
+COPY ~darian/creatures/t1dar3.cre~ ~override/t1dar.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR~ #8   //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
+COPY ~darian/creatures/t1dar3.cre~ ~override/t1dar25.cre~
+  SAY NAME1 ~Darian~
+  SAY NAME2 ~Darian Antharrna~
+  WRITE_ASCII 0x248 ~T1DAR25~ #8  //override script
+  WRITE_ASCII 0x280 ~T1DAR~ #32  //DV
+  WRITE_ASCII 0x2cc ~T1DAR25~ #8  //pre-joining dialogue file
+  WRITE_ASCII 0X34 ~T1DARS~ #8   //small portrait
+  WRITE_ASCII 0x3c ~T1DARM~ #8   //medium portrait
+  WRITE_LONG 0x18 2500000
+  SAY BIO ~When asked about his past, DARIAN informs you that he is one of the Menel'Quessir, also known as the Avariel, who are a race of winged elves almost entirely gone from the world. Among them, he is a young Talon, a holy warrior of Aerdrie Faeyna, and he has come to Athkatla in search of rumors of a winged freak, possibly an Avariel, imprisoned somewhere within the city.~
+  SAY HAPPY ~Your actions are more honorable than I would have expected of your kind.~
+  SAY UNHAPPY_ANNOYED ~Just the sort of behavior I was expecting...~
+  SAY UNHAPPY_SERIOUS ~I feel... tainted... by your presence.~
+  SAY UNHAPPY_BREAKING_POINT ~I take my leave. I cannot abide your presence any longer.~
+  SAY LEADER ~I will perform my duty with efficiency.~
+  SAY TIRED ~Fatigue is sapping my strength.~
+  SAY BORED ~Are you certain this is a wise use of our time?~
+  SAY BATTLE_CRY1 ~Into the storm!~
+  SAY BATTLE_CRY2 ~For the Menel'Quessir!~
+  SAY BATTLE_CRY3 ~Retreat or perish. There is no alternative.~
+  SAY DYING ~For... Myrrhavin...~
+  SAY HURT ~Arvandor awaits me!~
+  SAY AREA_FOREST ~Stay alert. This is the perfect site for an ambush.~
+  SAY AREA_CITY ~Be on your guard. Enemies can appear without warning.~
+  SAY AREA_DUNGEON ~I will continue, but we must escape this place at once.~
+  SAY AREA_DAY ~Good visibility works both ways.~
+  SAY AREA_NIGHT ~My senses are not impaired by the dark.~
+  SAY SELECT_COMMON1 ~Yes?~
+  SAY SELECT_COMMON2 ~Your will?~
+  SAY SELECT_COMMON3 ~What do you wish?~
+  SAY SELECT_COMMON4 ~I am prepared.~
+  SAY SELECT_COMMON5 ~Orders?~
+  SAY SELECT_COMMON6 ~There a problem?~
+  SAY SELECT_ACTION1 ~As you wish.~
+  SAY SELECT_ACTION2 ~For duty.~
+  SAY SELECT_ACTION3 ~So be it.~
+  SAY SELECT_ACTION4 ~I understand.~
+  SAY SELECT_ACTION5 ~As ordered.~
+  SAY SELECT_ACTION6 ~On my way.~
+  SAY SELECT_ACTION7 ~It is done.~
+  SAY CRITICAL_HIT ~For Aerdrie Faeyna!~
+  SAY CRITICAL_MISS ~Not my finest effort.~
+  SAY TARGET_IMMUNE ~My weapon is ineffective!~
+  SAY INVENTORY_FULL ~I am not a beast of burden-I had to drop what you gave me.~
+  SAY PICKED_POCKET ~Subterfuge successful.~
+  SAY EXISTANCE1 ~I shall strike with neither warning nor mercy.~
+  SAY SPELL_DISRUPTED ~My spell was disrupted beyond recovery.~
+  SAY SET_A_TRAP ~Trap operational and awaiting the target.~
+
 
 // Sarah Crossmod
 BEGIN ~Sarah NPC Crossmod~
-  REQUIRE_COMPONENT ~setup-darian.tp2~ ~0~ ~You do not appear to have Darian installed~
+  REQUIRE_COMPONENT ~darian.tp2~ ~0~ ~You do not appear to have Darian installed~
   REQUIRE_COMPONENT ~Setup-Sarah.tp2~ ~0~ ~You do not appear to have Sarah installed~
 
 COMPILE ~darian/dialogue/sarahbanter.d~

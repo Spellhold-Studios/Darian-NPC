@@ -5,8 +5,8 @@ BEGIN T1DAR25J
 BEGIN T1DDAD
 
 EXTEND_BOTTOM SARVOLO 9 #7
-+ ~Global("T1DarRomanceActive","GLOBAL",2)~ + ~Tell me about Darian.~ EXTERN SARVOLO darianlove
-+ ~!Global("T1DarRomanceActive","GLOBAL",2)~ + ~Tell me about Darian.~ EXTERN SARVOLO darian
++ ~InParty("T1Dar") Global("T1DarRomanceActive","GLOBAL",2)~ + ~Tell me about Darian.~ EXTERN SARVOLO darianlove
++ ~InParty("T1Dar") !Global("T1DarRomanceActive","GLOBAL",2)~ + ~Tell me about Darian.~ EXTERN SARVOLO darian
 END
 
 CHAIN SARVOLO darianlove
@@ -863,9 +863,9 @@ IF ~Global("T1DarToBSendai","GLOBAL",1)~ sendai
 END
 
 // Area AR3000 (Arriving at Watcher's Keep)
-IF ~Global("T1DarWatchers","GLOBAL",1)~ watchers
+IF ~Global("T1DarToBWatchers","GLOBAL",1)~ watchers
   SAY ~Humans can be impressive builders, I'll give them that.~
-  IF ~~ DO ~IncrementGlobal("T1DarWatchers","GLOBAL",1)~ EXIT
+  IF ~~ DO ~IncrementGlobal("T1DarToBWatchers","GLOBAL",1)~ EXIT
 END
 
 END

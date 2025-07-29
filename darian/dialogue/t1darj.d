@@ -338,14 +338,14 @@ END
 // Lovetalk 5.
 IF ~Global("T1DarLovetalk","GLOBAL",10)~ T1DarLovetalk5
   SAY ~<CHARNAME>, is this a good time to talk to you again?~
-  + ~OR(3) Class(Player1,FIGHTER) Kit(Player1,BARBARIAN) Class(Player1,MONK)~ + ~Of course. What's on your mind?~ DO ~SetGlobal("T1DarLovetalk","GLOBAL",11) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5fighter
-  + ~Class(Player1,RANGER)~ + ~Sure thing.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5ranger
-  + ~Class(Player1,PALADIN)~ + ~Of course. What's on your mind?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5pally
-  + ~Class(Player1,DRUID)~ + ~What's wrong~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5druid
-  + ~Class(Player1,CLERIC)~ + ~Is something troubling you?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5cleric
-  + ~Class(Player1,THIEF)~ + ~If you want to talk, I'm listening.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5thief
-  + ~Class(Player1,BARD)~ + ~Of course. What's on your mind?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5bard
-  + ~OR(2) Class(Player1,MAGE) Class(Player1,SORCERER)~ + ~Gladly.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5mage
+  + ~OR(4) Class(Player1,FIGHTER_MAGE_THIEF) Class(Player1,FIGHTER_ALL) Kit(Player1,BARBARIAN) Class(Player1,MONK)~ + ~Of course. What's on your mind?~ DO ~SetGlobal("T1DarLovetalk","GLOBAL",11) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5fighter
+  + ~OR(2) Class(Player1,CLERIC_RANGER) Class(Player1,RANGER_ALL)~ + ~Sure thing.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5ranger
+  + ~Class(Player1,PALADIN_ALL)~ + ~Of course. What's on your mind?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5pally
+  + ~OR(2) Class(Player1,FIGHTER_DRUID) Class(Player1,DRUID_ALL)~ + ~What's wrong~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5druid
+  + ~OR(5) Class(Player1,FIGHTER_CLERIC) Class(Player1,CLERIC_ALL) Class(Player1,CLERIC_THIEF) Class(Player1,CLERIC_MAGE)~ + ~Is something troubling you?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5cleric
+  + ~OR(2) Class(Player1,FIGHTER_THIEF) Class(Player1,THIEF_ALL)~ + ~If you want to talk, I'm listening.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5thief
+  + ~Class(Player1,BARD_ALL)~ + ~Of course. What's on your mind?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5bard
+  + ~OR(5) Class(Player1,FIGHTER_MAGE_CLERIC) Class(Player1,MAGE_THIEF) Class(Player1,FIGHTER_MAGE) Class(Player1,MAGE_ALL) Class(Player1,SORCERER)~ + ~Gladly.~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5mage
   ++ ~Not really. Can this wait?~ DO ~IncrementGlobal("T1DarLovetalk","GLOBAL",1) RealSetGlobalTimer("T1DarRomanceTimer","GLOBAL",2500)~ + T1DarLT5wait
 END
 

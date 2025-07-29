@@ -83,6 +83,7 @@ END
 
 // Saradush
 IF
+    PartyRested()
     InParty(Myself)
     See(Player1)
     !StateCheck(Myself,CD_STATE_NOTVALID)
@@ -90,6 +91,7 @@ IF
     CombatCounter(0)
     !See([ENEMY])
     PartyRested()
+    Global("SaradushSacked","GLOBAL",1)
     Global("T1DarToBLovetalk","GLOBAL",5)
 THEN
   RESPONSE #100

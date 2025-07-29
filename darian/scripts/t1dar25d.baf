@@ -1,0 +1,17 @@
+// Darian/Aerie on rest lovetalk
+IF 
+    CombatCounter(0)
+    InParty("T1Dar")
+    InParty("Aerie")
+    See("T1Dar")
+    !See ([ENEMY])
+    !StateCheck("Aerie",CD_STATE_NOTVALID)
+    !StateCheck("T1Dar",CD_STATE_NOTVALID)
+    Global("T1DarAerRom2","GLOBAL",1)
+    Global("T1DarAerRom3","GLOBAL",0)
+    GlobalTimerExpired("T1DarAerieTimer","GLOBAL")
+THEN
+  RESPONSE #100
+   SetGlobal("T1DarAerRom3","GLOBAL",1)
+   Dialogue("Aerie")
+END

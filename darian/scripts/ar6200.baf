@@ -1,0 +1,192 @@
+// ---------------------------------------------
+// Nephele Epilogues
+// ---------------------------------------------
+
+// Aerie romanced Darian
+IF
+  Global("StartEndBios","AR6200",1)
+  InParty("Aerie")
+  InParty("T1Dar")
+  Global("T1DarAerRom5","GLOBAL",1)
+  Global("AerieBio","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("AerieBio","GLOBAL",1)
+    TextScreen("T1AERIE")
+END
+
+// Aerie romance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    InParty("Aerie")
+    Global("T1DarAerRom5","GLOBAL",1)
+    Global("T1DarBio","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR12")
+END
+
+// Romance, ascended, pregnant
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",1)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    !Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR2")
+END
+
+// Romance, ascended, not pregnant
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",1)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR3")
+END
+
+// Romance, mortal, pregnant, persistance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePersistance","GLOBAL",1)
+    Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR5")
+END
+
+// Romance, mortal, not pregnant, persistance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePersistance","GLOBAL",1)
+    !Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR4")
+END
+
+// Romance, mortal, pregnant, separation
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceSeparation","GLOBAL",1)
+    Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR6")
+END
+
+// Romance, mortal, not pregnant, separation
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceSeparation","GLOBAL",1)
+    !Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR7")
+END
+
+// Romance, mortal, pregnant, patience
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePatience","GLOBAL",1)
+    !Race(Player1,ELF)
+    Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR9")
+END
+
+// Romance, mortal, not pregnant, patience
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePatience","GLOBAL",1)
+    !Race(Player1,ELF)
+    !Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR8")
+END
+
+// Romance, mortal, pregnant, perseverance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePatience","GLOBAL",1)
+    Race(Player1,ELF)
+    Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR11")
+END
+
+// Romance, mortal, not pregnant, perseverance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    Global("T1DarBio","GLOBAL",0)
+    Global("PlayerChoseEssence","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarRomancePatience","GLOBAL",1)
+    Race(Player1,ELF)
+    !Global("T1DarPregnant","GLOBAL",1)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR10")
+END
+
+// no PC romance, no Aerie romance
+IF
+    Global("StartEndBios","AR6200",1)
+    InParty("T1Dar")
+    !Global("T1DarAerRom5","GLOBAL",1)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarBio","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarBio","GLOBAL",1)
+    TextScreen("T1DAR1")
+END

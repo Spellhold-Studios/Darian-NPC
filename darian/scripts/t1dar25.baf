@@ -1,0 +1,212 @@
+// ----------------------------------
+// Darian's ToB override script
+// ----------------------------------
+
+IF
+  Global("T1DarSummoned","GLOBAL",1)
+THEN
+  RESPONSE #100     
+    SetGlobal("T1DarSummoned","GLOBAL",2)
+    Dialogue(Player1)
+END
+
+// ---------------------------------------------
+// Romance
+// ---------------------------------------------
+IF 
+    InParty(Myself)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    Global("T1DarToBLovetalk","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarToBLovetalk","GLOBAL",1)
+    RealSetGlobalTimer("T1DarToBRomanceTimer","GLOBAL",2700)
+END
+
+IF
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    RealGlobalTimerExpired("T1DarToBRomanceTimer","GLOBAL")
+    CombatCounter(0)
+    !See([ENEMY])
+    Global("T1DarRomanceActive","GLOBAL",2)
+    OR(6)
+      Global("T1DarToBLovetalk","GLOBAL",2)
+      Global("T1DarToBLovetalk","GLOBAL",4)
+      Global("T1DarToBLovetalk","GLOBAL",6)
+      Global("T1DarToBLovetalk","GLOBAL",8)
+      Global("T1DarToBLovetalk","GLOBAL",10)
+      Global("T1DarToBLovetalk","GLOBAL",12)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+    PlaySong(0)
+    PlaySound("t1darrom")
+    StartDialogueNoSet(Player1)
+END
+
+IF
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    RealGlobalTimerExpired("T1DarToBRomanceTimer","GLOBAL")
+    CombatCounter(0)
+    !See([ENEMY])
+    OR(2)
+      Global("T1DarToBLovetalk","GLOBAL",1)
+      Global("T1DarToBLovetalk","GLOBAL",3)
+THEN
+  RESPONSE #100
+    IncrementGlobal("T1DarToBLovetalk","GLOBAL",1)
+END
+
+IF
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    RealGlobalTimerExpired("T1DarToBRomanceTimer","GLOBAL")
+    Global("T1Dar_Wraith","GLOBAL",2)
+    CombatCounter(0)
+    !See([ENEMY])
+    OR(3)
+      Global("T1DarToBLovetalk","GLOBAL",7)
+      Global("T1DarToBLovetalk","GLOBAL",9)
+      Global("T1DarToBLovetalk","GLOBAL",11)
+THEN
+  RESPONSE #100
+    IncrementGlobal("T1DarToBLovetalk","GLOBAL",1)
+END
+
+// Saradush
+IF
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    CombatCounter(0)
+    !See([ENEMY])
+    PartyRested()
+    Global("T1DarToBLovetalk","GLOBAL",5)
+THEN
+  RESPONSE #100
+    IncrementGlobal("T1DarToBLovetalk","GLOBAL",1)
+END
+
+// ---------------------------------------------
+// Darian-initiated flirts
+// ---------------------------------------------
+IF
+    Global("T1DarFlirtsCheck","GLOBAL",0)
+    InParty(Myself)
+    Global("T1DarRomanceActive","GLOBAL",2)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarFlirtsCheck","GLOBAL",1)
+    RealSetGlobalTimer("T1DarFlirtTimer","GLOBAL",1800)
+END
+
+IF
+    RealGlobalTimerExpired("T1DarFlirtTimer","GLOBAL")
+    InParty(Myself)
+    Global("T1DarTimeForFlirt","GLOBAL",0)
+    Global("T1DarRomanceActive","GLOBAL",2)
+    GlobalLT("T1DarToBLovetalk","GLOBAL",8)
+    See(Player1)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    CombatCounter(0)
+    !See([ENEMY])
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarTimeForFlirt","GLOBAL",1)
+END
+
+IF
+    Global("T1DarTimeForFlirt","GLOBAL",1)
+    InParty(Myself)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+THEN
+  RESPONSE #100
+    StartDialogueNoSet(Player1)                         
+END
+
+
+// ---------------------------------------------
+// Area comments
+// ---------------------------------------------
+// Marching Mountains
+IF
+    InParty(Myself)
+    AreaCheck("AR5200")
+    Global("T1DarToBMountains","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarToBMountains","GLOBAL",1)
+END
+
+IF 
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    CombatCounter(0)
+    !See([ENEMY])
+    Global("T1DarToBMountains","GLOBAL",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+    StartDialogueNoSet(Player1)
+END
+
+// Sendai's lair
+IF
+    InParty(Myself)
+    AreaCheck("AR6101")
+    Global("T1DarToBSendai","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarToBSendai","GLOBAL",1)
+END
+
+IF 
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    CombatCounter(0)
+    !See([ENEMY])
+    Global("T1DarToBSendai","GLOBAL",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+    StartDialogueNoSet(Player1)
+END   
+
+// Watcher's Keep
+IF
+    InParty(Myself)
+    AreaCheck("AR3000")
+    Global("T1DarToBWatchers","GLOBAL",0)
+THEN
+  RESPONSE #100
+    SetGlobal("T1DarToBWatchers","GLOBAL",1)
+END
+
+IF 
+    InParty(Myself)
+    See(Player1)
+    !StateCheck(Myself,CD_STATE_NOTVALID)
+    !StateCheck(Player1,CD_STATE_NOTVALID)
+    CombatCounter(0)
+    !See([ENEMY])
+    Global("T1DarToBWatchers","GLOBAL",1)
+THEN
+  RESPONSE #100
+    MoveToObject(Player1)
+    StartDialogueNoSet(Player1)
+END

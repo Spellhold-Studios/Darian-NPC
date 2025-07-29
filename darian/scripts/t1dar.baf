@@ -11,7 +11,7 @@ IF
     Global("T1DarMatchCheck","GLOBAL",0)
     Gender(Player1,FEMALE)
     !Alignment(Player1,MASK_EVIL)
-    OR(3)
+    OR(3)                             
       Race(Player1,ELF)
       Race(Player1,HALF_ELF)
       Race(Player1,HUMAN)

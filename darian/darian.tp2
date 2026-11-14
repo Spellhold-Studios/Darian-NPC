@@ -57,6 +57,11 @@ LANGUAGE ~Russian (translation by Kirian)~
          ~darian/translations/english/setup.tra~
          ~darian/translations/russian/setup.tra~
 
+LANGUAGE ~Schinese~
+         ~schinese~
+         ~darian/translations/english/setup.tra~
+         ~darian/translations/schinese/setup.tra~
+		 
 // --------------------------------------------
 // Darian NPC Mod
 // --------------------------------------------
